@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI对话模拟</title>
+    <style>
+        #chat {
+            width: 50%;
+            margin: 0 auto;
+            max-width: 600px;
+            font-family: Arial, sans-serif;
+        }
+        .message {
+            display: flex;
+            margin: 10px 0;
+        }
+        .user, .ai {
+            padding: 10px;
+            border-radius: 10px;
+            max-width: 70%;
+        }
+        .user {
+            background-color: #d1e7dd;
+            align-self: flex-end;
+        }
+        .ai {
+            background-color: #f1f1f1;
+            align-self: flex-start;
+        }
+        #input-section {
+            display: flex;
+            margin-top: 10px;
+        }
+        #question {
+            flex-grow: 1;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div id="chat">
+        <div id="chat-log"></div>
+        <div id="input-section">
+            <input type="text" id="question" placeholder="请输入你的问题..." />
+            <button onclick="handleQuestion()">发送</button>
+        </div>
+    </div>
+
+    <script>
+        function respondToQuestion() {
+            const responses = ["确实", "或许","乐","嗯嗯"];
+            const randomIndex = Math.floor(Math.random() * responses.length);
+            return responses[randomIndex];
+        }
+
+        function addMessage(text, isUser = false) {
+            const chatLog = document.getElementById("chat-log");
+            const messageDiv = document.createElement("div");
+            messageDiv.classList.add("message", isUser ? "user" : "ai");
+            messageDiv.textContent = text;
+            chatLog.appendChild(messageDiv);
+            chatLog.scrollTop = chatLog.scrollHeight; // 自动滚动到底部
+        }
+
+        function handleQuestion() {
+            const questionInput = document.getElementById("question");
+            const question = questionInput.value.trim();
+            if (question) {
+                addMessage(question, true); // 显示用户消息
+                questionInput.value = ""; // 清空输入框
+                setTimeout(() => {
+                    const response = respondToQuestion();
+                    addMessage(response); // 显示AI回复
+                }, 500); // 模拟AI回复延迟
+            }
+        }
+    </script>
+</body>
+</html>
